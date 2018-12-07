@@ -7,11 +7,11 @@ const CounterPanel = (props) => {
 			<tbody>
 				<tr>
 					<td>Attending:</td>
-					<td>2</td>
+					<td>{props.confirmedGuests()}</td>
 				</tr>
 				<tr>
 					<td>Unconfirmed:</td>
-					<td>1</td>
+					<td>{props.notGoing()}</td>
 				</tr>
 				<tr>
 					<td>Total:</td>
@@ -22,8 +22,10 @@ const CounterPanel = (props) => {
 	);
 };
 
-CounterPanel.PropTypes = {
-	totalGuest: PropTypes.func.isRequired
+CounterPanel.propTypes = {
+	totalGuest: PropTypes.func.isRequired,
+	confirmedGuests: PropTypes.func.isRequired,
+	notGoing: PropTypes.func.isRequired
 };
 
 export default CounterPanel;

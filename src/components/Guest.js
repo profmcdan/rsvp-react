@@ -9,7 +9,7 @@ class Guest extends Component {
 	}
 
 	render() {
-		const { name, isConfirmed, isEditing, handleConfirmation, handleEditing, setName } = this.props;
+		const { name, isConfirmed, isEditing, handleConfirmation, handleEditing, setName, removeGuest } = this.props;
 		const editText = isEditing ? "save" : "edit";
 		return (
 			<li className="responded">
@@ -20,7 +20,7 @@ class Guest extends Component {
 					<input type="checkbox" checked={isConfirmed} onChange={handleConfirmation} /> Confirmed
 				</label>
 				<button onClick={handleEditing}>{editText}</button>
-				<button>remove</button>
+				<button onClick={removeGuest}>remove</button>
 			</li>
 		);
 	}
@@ -32,7 +32,8 @@ Guest.propTypes = {
 	isEditing: PropTypes.bool.isRequired,
 	handleConfirmation: PropTypes.func.isRequired,
 	handleEditing: PropTypes.func.isRequired,
-	setName: PropTypes.func.isRequired
+	setName: PropTypes.func.isRequired,
+	removeGuest: PropTypes.func.isRequired
 };
 
 export default Guest;

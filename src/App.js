@@ -5,6 +5,8 @@ import CounterPanel from "./components/CounterPanel";
 
 class App extends Component {
 	state = {
+		isFiltered: false,
+		pendingGuest: "",
 		guests: [
 			{
 				name: "Treasure",
@@ -22,24 +24,6 @@ class App extends Component {
 				name: "Ola",
 				isConfirmed: false,
 				id: 3,
-				isEditing: false
-			},
-			{
-				name: "Tony",
-				isConfirmed: true,
-				id: 4,
-				isEditing: false
-			},
-			{
-				name: "Ojo",
-				isConfirmed: false,
-				id: 5,
-				isEditing: false
-			},
-			{
-				name: "Thompson",
-				isConfirmed: false,
-				id: 6,
 				isEditing: false
 			}
 		]
@@ -66,10 +50,6 @@ class App extends Component {
 		this.toggleGuestPropertyAt("isEditing", index);
 	};
 
-	getTotalInvited = () => {
-		return this.state.guests.length;
-	};
-
 	setNameAt = (name, indexToChange) => {
 		const updatedGuests = this.state.guests.map((guest, index) => {
 			if (index === indexToChange) {
@@ -83,26 +63,75 @@ class App extends Component {
 		return this.setState({ guests: updatedGuests });
 	};
 
+	handleNameInput = (e) => {
+		this.setState({ pendingGuest: e.target.value });
+	};
+
+	addNewGuest = (e) => {
+		e.preventDefault();
+
+		if (this.state.pendingGuest !== "") {
+			const newGuest = {
+				name: this.state.pendingGuest,
+				isConfirmed: false,
+				id: this.state.guests.length + 1,
+				isEditing: false
+			};
+			this.setState({ guests: [ newGuest, ...this.state.guests ], pendingGuest: "" });
+		}
+	};
+
+	removeGuestAt = (index) => {
+		this.setState({ guests: [ ...this.state.guests.slice(0, index), ...this.state.guests.slice(index + 1) ] });
+	};
+
+	toggleFilter = () => {
+		this.setState({ isFiltered: !this.state.isFiltered });
+	};
+
+	getTotalInvited = () => {
+		return this.state.guests.length;
+	};
 	// getAttendingGuests = () => {}
-	// getConfirmedGuests = () => {}
+	getConfirmedGuests = () => {
+		const confirmedGuest = this.state.guests.filter((guest) => guest.isConfirmed === true);
+		return confirmedGuest.length;
+	};
+
+	getUnConfirmedGuests = () => {
+		const unConfirmedGuest = this.state.guests.filter((guest) => guest.isConfirmed === false);
+		return unConfirmedGuest.length;
+	};
 
 	render() {
 		return (
 			<div className="App">
-				<Header />
+				<Header
+					handleInput={this.handleNameInput}
+					pendingGuest={this.state.pendingGuest}
+					handleSubmit={this.addNewGuest}
+				/>
 				<div className="main">
 					<div>
 						<h2>Invitees</h2>
 						<label>
-							<input type="checkbox" /> Hide those who havent responded
+							<input type="checkbox" onChange={this.toggleFilter} checked={this.state.isFiltered} /> Hide those who
+							havent responded
 						</label>
 					</div>
-					<CounterPanel totalGuest={() => this.getTotalInvited()} />
+					<CounterPanel
+						totalGuest={() => this.getTotalInvited()}
+						confirmedGuests={() => this.getConfirmedGuests()}
+						notGoing={() => this.getUnConfirmedGuests()}
+					/>
 					<GuestList
 						guests={this.state.guests}
 						toggleConfirmationAt={this.toggleConfirmationAt}
 						toggleEditingAt={this.toggleEditingAt}
 						setNameAt={this.setNameAt}
+						isFiltered={this.state.isFiltered}
+						removeGuestAt={this.removeGuestAt}
+						pendingGuest={this.state.pendingGuest}
 					/>
 				</div>
 			</div>
