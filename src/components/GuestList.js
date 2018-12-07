@@ -9,14 +9,14 @@ class GuestList extends Component {
 	}
 
 	render() {
-		const { guests, toggleConfirmationAt, toggleEditingAt, setNameAt } = this.props;
+		const { guests, toggleConfirmationAt, toggleEditingAt, setNameAt, isFiltered } = this.props;
 		return (
 			<ul>
 				<li className="pending">
 					<span>Safia</span>
 				</li>
 
-				{guests.map((guest, index) => {
+				{guests.filter((guest) => !isFiltered || guest.isConfirmed).map((guest, index) => {
 					return (
 						<Guest
 							key={index}
@@ -26,6 +26,7 @@ class GuestList extends Component {
 							handleConfirmation={() => toggleConfirmationAt(index)}
 							handleEditing={() => toggleEditingAt(index)}
 							setName={(text) => setNameAt(text, index)}
+							isFiltered={isFiltered}
 						/>
 					);
 				})}
@@ -38,7 +39,8 @@ GuestList.propTypes = {
 	guests: PropTypes.array.isRequired,
 	toggleConfirmationAt: PropTypes.func.isRequired,
 	toggleEditingAt: PropTypes.func.isRequired,
-	setNameAt: PropTypes.func.isRequired
+	setNameAt: PropTypes.func.isRequired,
+	isFiltered: PropTypes.bool.isRequired
 };
 
 export default GuestList;

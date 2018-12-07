@@ -5,6 +5,7 @@ import CounterPanel from "./components/CounterPanel";
 
 class App extends Component {
 	state = {
+		isFiltered: false,
 		guests: [
 			{
 				name: "Treasure",
@@ -66,10 +67,6 @@ class App extends Component {
 		this.toggleGuestPropertyAt("isEditing", index);
 	};
 
-	getTotalInvited = () => {
-		return this.state.guests.length;
-	};
-
 	setNameAt = (name, indexToChange) => {
 		const updatedGuests = this.state.guests.map((guest, index) => {
 			if (index === indexToChange) {
@@ -83,6 +80,14 @@ class App extends Component {
 		return this.setState({ guests: updatedGuests });
 	};
 
+	getTotalInvited = () => {
+		return this.state.guests.length;
+	};
+
+	toggleFilter = () => {
+		this.setState({ isFiltered: !this.state.isFiltered });
+	};
+
 	// getAttendingGuests = () => {}
 	// getConfirmedGuests = () => {}
 
@@ -94,7 +99,8 @@ class App extends Component {
 					<div>
 						<h2>Invitees</h2>
 						<label>
-							<input type="checkbox" /> Hide those who havent responded
+							<input type="checkbox" onChange={this.toggleFilter} checked={this.state.isFiltered} /> Hide those who
+							havent responded
 						</label>
 					</div>
 					<CounterPanel totalGuest={() => this.getTotalInvited()} />
@@ -103,6 +109,7 @@ class App extends Component {
 						toggleConfirmationAt={this.toggleConfirmationAt}
 						toggleEditingAt={this.toggleEditingAt}
 						setNameAt={this.setNameAt}
+						isFiltered={this.state.isFiltered}
 					/>
 				</div>
 			</div>
