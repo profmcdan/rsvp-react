@@ -25,7 +25,7 @@ class GuestList extends Component {
 							isEditing={guest.isEditing}
 							handleConfirmation={() => toggleConfirmationAt(index)}
 							handleEditing={() => toggleEditingAt(index)}
-							setName={(text) => setNameAt(index)}
+							setName={(text) => setNameAt(text, index)}
 						/>
 					);
 				})}
