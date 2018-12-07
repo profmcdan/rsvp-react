@@ -6,6 +6,7 @@ import CounterPanel from "./components/CounterPanel";
 class App extends Component {
 	state = {
 		isFiltered: false,
+		pendingGuest: "",
 		guests: [
 			{
 				name: "Treasure",
@@ -23,24 +24,6 @@ class App extends Component {
 				name: "Ola",
 				isConfirmed: false,
 				id: 3,
-				isEditing: false
-			},
-			{
-				name: "Tony",
-				isConfirmed: true,
-				id: 4,
-				isEditing: false
-			},
-			{
-				name: "Ojo",
-				isConfirmed: false,
-				id: 5,
-				isEditing: false
-			},
-			{
-				name: "Thompson",
-				isConfirmed: false,
-				id: 6,
 				isEditing: false
 			}
 		]
@@ -80,6 +63,24 @@ class App extends Component {
 		return this.setState({ guests: updatedGuests });
 	};
 
+	handleNameInput = (e) => {
+		this.setState({ pendingGuest: e.target.value });
+	};
+
+	addNewGuest = (e) => {
+		e.preventDefault();
+
+		if (this.state.pendingGuest !== "") {
+			const newGuest = {
+				name: this.state.pendingGuest,
+				isConfirmed: false,
+				id: this.state.guests.length + 1,
+				isEditing: false
+			};
+			this.setState({ guests: [ newGuest, ...this.state.guests ], pendingGuest: "" });
+		}
+	};
+
 	getTotalInvited = () => {
 		return this.state.guests.length;
 	};
@@ -94,7 +95,11 @@ class App extends Component {
 	render() {
 		return (
 			<div className="App">
-				<Header />
+				<Header
+					handleInput={this.handleNameInput}
+					pendingGuest={this.state.pendingGuest}
+					handleSubmit={this.addNewGuest}
+				/>
 				<div className="main">
 					<div>
 						<h2>Invitees</h2>

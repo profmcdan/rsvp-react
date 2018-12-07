@@ -22,7 +22,7 @@ const CounterPanel = (props) => {
 	);
 };
 
-CounterPanel.PropTypes = {
+CounterPanel.propTypes = {
 	totalGuest: PropTypes.func.isRequired
 };
 
