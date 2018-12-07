@@ -85,16 +85,23 @@ class App extends Component {
 		this.setState({ guests: [ ...this.state.guests.slice(0, index), ...this.state.guests.slice(index + 1) ] });
 	};
 
-	getTotalInvited = () => {
-		return this.state.guests.length;
-	};
-
 	toggleFilter = () => {
 		this.setState({ isFiltered: !this.state.isFiltered });
 	};
 
+	getTotalInvited = () => {
+		return this.state.guests.length;
+	};
 	// getAttendingGuests = () => {}
-	// getConfirmedGuests = () => {}
+	getConfirmedGuests = () => {
+		const confirmedGuest = this.state.guests.filter((guest) => guest.isConfirmed === true);
+		return confirmedGuest.length;
+	};
+
+	getUnConfirmedGuests = () => {
+		const unConfirmedGuest = this.state.guests.filter((guest) => guest.isConfirmed === false);
+		return unConfirmedGuest.length;
+	};
 
 	render() {
 		return (
@@ -112,7 +119,11 @@ class App extends Component {
 							havent responded
 						</label>
 					</div>
-					<CounterPanel totalGuest={() => this.getTotalInvited()} />
+					<CounterPanel
+						totalGuest={() => this.getTotalInvited()}
+						confirmedGuests={() => this.getConfirmedGuests()}
+						notGoing={() => this.getUnConfirmedGuests()}
+					/>
 					<GuestList
 						guests={this.state.guests}
 						toggleConfirmationAt={this.toggleConfirmationAt}
