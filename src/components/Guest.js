@@ -10,6 +10,7 @@ class Guest extends Component {
 
 	render() {
 		const { name, isConfirmed, isEditing, handleConfirmation, handleEditing, setName } = this.props;
+		const editText = isEditing ? "save" : "edit";
 		return (
 			<li className="responded">
 				<GuestName isEditing={isEditing} handleNameEdits={(e) => setName(e.target.value)}>
@@ -18,7 +19,7 @@ class Guest extends Component {
 				<label>
 					<input type="checkbox" checked={isConfirmed} onChange={handleConfirmation} /> Confirmed
 				</label>
-				<button onClick={handleEditing}>edit</button>
+				<button onClick={handleEditing}>{editText}</button>
 				<button>remove</button>
 			</li>
 		);
