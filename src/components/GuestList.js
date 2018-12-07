@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Guest from "./Guest";
+import PendingGuest from "./PendingGuest";
 
 class GuestList extends Component {
 	constructor(props) {
@@ -9,12 +10,18 @@ class GuestList extends Component {
 	}
 
 	render() {
-		const { guests, toggleConfirmationAt, toggleEditingAt, setNameAt, isFiltered, removeGuestAt } = this.props;
+		const {
+			guests,
+			toggleConfirmationAt,
+			toggleEditingAt,
+			setNameAt,
+			isFiltered,
+			removeGuestAt,
+			pendingGuest
+		} = this.props;
 		return (
 			<ul>
-				<li className="pending">
-					<span>Safia</span>
-				</li>
+				<PendingGuest name={pendingGuest} />
 
 				{guests.filter((guest) => !isFiltered || guest.isConfirmed).map((guest, index) => {
 					return (
@@ -42,7 +49,8 @@ GuestList.propTypes = {
 	toggleEditingAt: PropTypes.func.isRequired,
 	setNameAt: PropTypes.func.isRequired,
 	isFiltered: PropTypes.bool.isRequired,
-	removeGuestAt: PropTypes.func.isRequired
+	removeGuestAt: PropTypes.func.isRequired,
+	pendingGuest: PropTypes.string.isRequired
 };
 
 export default GuestList;
