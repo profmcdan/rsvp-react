@@ -9,7 +9,7 @@ class GuestList extends Component {
 	}
 
 	render() {
-		const { guests, toggleConfirmationAt, toggleEditingAt, setNameAt, isFiltered } = this.props;
+		const { guests, toggleConfirmationAt, toggleEditingAt, setNameAt, isFiltered, removeGuestAt } = this.props;
 		return (
 			<ul>
 				<li className="pending">
@@ -27,6 +27,7 @@ class GuestList extends Component {
 							handleEditing={() => toggleEditingAt(index)}
 							setName={(text) => setNameAt(text, index)}
 							isFiltered={isFiltered}
+							removeGuest={() => removeGuestAt(index)}
 						/>
 					);
 				})}
@@ -40,7 +41,8 @@ GuestList.propTypes = {
 	toggleConfirmationAt: PropTypes.func.isRequired,
 	toggleEditingAt: PropTypes.func.isRequired,
 	setNameAt: PropTypes.func.isRequired,
-	isFiltered: PropTypes.bool.isRequired
+	isFiltered: PropTypes.bool.isRequired,
+	removeGuestAt: PropTypes.func.isRequired
 };
 
 export default GuestList;
